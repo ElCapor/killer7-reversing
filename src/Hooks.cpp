@@ -3,7 +3,6 @@
 #include <detours.h>
 #include <EE/Thread/Threads.hpp>
 #include <console.hpp>
-#include <jhook.hpp>
 void EE::Hooks::HookThreads()
 {
     DetourTransactionBegin();
