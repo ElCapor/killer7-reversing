@@ -10,7 +10,10 @@ void EE::Hooks::HookThreads()
     DetourUpdateThread(GetCurrentThread());
     Console::log(std::hex, EE::Thread::oCreateThread);
     DetourAttach(&(PVOID&)EE::Thread::oCreateThread, EE::Thread::CreateThread);
-    DetourAttach(&(PVOID&)EE::Vfs::oReadFile, EE::Vfs::ReadFile);
+    DetourAttach(&(PVOID&)EE::VfsArchive::oReadFile, EE::VfsArchive::ReadFile);
+    DetourAttach(&(PVOID&)EE::VfsArchive::oOpenFile, EE::VfsArchive::OpenFile);
+    DetourAttach(&(PVOID&)EE::VfsArchive::oAccessFile, EE::VfsArchive::AccessFile);
+    DetourAttach(&(PVOID&)EE::VfsFileZlib::oRead, EE::VfsFileZlib::Read);
     DetourTransactionCommit();
 }
 
