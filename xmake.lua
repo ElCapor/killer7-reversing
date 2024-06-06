@@ -1,5 +1,6 @@
 add_rules("mode.debug", "mode.release")
 set_allowedarchs("x86")
+add_requires("rcmp")
 target("Killer7DLL")
     set_kind("shared")
     set_languages("cxx23")
@@ -10,3 +11,9 @@ target("Killer7DLL")
 
     add_linkdirs("extern/detours/x86")
     add_links("detours.lib", "user32")
+    add_packages("rcmp")
+
+    after_build(function(target)
+        local gamePath = "C:\\Users\\HP\\Downloads\\Killer7 Debug\\Killer7 Debug\\killer7.asi"
+        os.cp(target:targetfile(), gamePath)
+    end)
