@@ -8,7 +8,7 @@ namespace EE
     {
         using CreateThreadT = bool(__thiscall*)(uintptr_t, int, int, bool, bool, uintptr_t);
         extern CreateThreadT oCreateThread;
-        bool CreateThread(uintptr_t thread_structure, int threadFunction, int _this, bool a4, bool a5, uintptr_t a6);
+        bool __fastcall CreateThread(uintptr_t thread_structure,void*, int threadFunction, int _this, bool a4, bool a5, uintptr_t a6);
     }
 }
 
