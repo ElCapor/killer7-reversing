@@ -7,7 +7,16 @@ namespace K7
 {
     namespace Graphics
     {
-        DECLARE_THISCALL_FUNCTION(DrawMenuButton,bool, uintptr_t a2, uint16_t x, uint16_t y, const char* text);
+        struct MenuButtonDescriptor
+        {
+            int text_len;
+            const char* text;
+            void* flag1;
+            void* flag2;
+            int flag4;
+            void* flag5;
+        };
+        DECLARE_THISCALL_FUNCTION(DrawMenuButton,bool, MenuButtonDescriptor* a2, uint16_t x, uint16_t y, const char* text);
     }
 }
 
