@@ -5,6 +5,25 @@ namespace K7
 {
     namespace Graphics
     {
+        struct Color
+        {
+            uint8_t a;
+            uint8_t b;
+            uint8_t g;
+            uint8_t r;
+        };
+
+        // 0075575C
+        class mk7sprite
+        {
+            uintptr_t vtable[7]; // 6 is render
+            char pad[24];
+            uint16_t width;
+            uint16_t height;
+        };
+
+        DECLARE_THISCALL_FUNCTION(RenderSprite, int);
+
         struct MenuButtonDescriptor
         {
             int text_len;
@@ -15,13 +34,7 @@ namespace K7
             void* flag5;
         };
 
-        struct Color
-        {
-            uint8_t r;
-            uint8_t g;
-            uint8_t b;
-            uint8_t a;
-        };
+        
 
         struct CMenuTitle
         {
@@ -34,8 +47,8 @@ namespace K7
 	        int32_t GameState; //0x1EA0
             int32_t SelectedButtonIndex; //0x1EA4
 	        char pad_1EA8[31320]; //0x1EA8
-            Color color1;
-            Color color2;
+            Color color1; // hover color ?
+            Color color2; // idle color ??
 
             /*
             * STATES : 0x0 = PRESS START

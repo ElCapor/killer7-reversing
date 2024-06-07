@@ -16,6 +16,7 @@ void EE::Hooks::HookThreads()
     DetourAttach(&(PVOID&)EE::VfsArchive::oAccessFile, EE::VfsArchive::AccessFile);
     DetourAttach(&(PVOID&)EE::VfsFileZlib::oRead, EE::VfsFileZlib::Read);
     DetourAttach(&(PVOID&)K7::Graphics::oDrawMenuButton, K7::Graphics::DrawMenuButton);
+    DetourAttach(&(PVOID&)K7::Graphics::oRenderSprite, K7::Graphics::RenderSprite);
     DetourTransactionCommit();
 }
 
