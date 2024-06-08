@@ -5,36 +5,36 @@
 #include <EE/Vfs/Vfs.hpp>
 #include <K7/Misc.hpp>
 #include <console.hpp>
-
-using sub_457400T = int(__thiscall*)(uintptr_t _this, int a2, int a3, char a4, void *Src, HICON hInstance, int a7, char a8, int a9);
-sub_457400T osub_457400 = (sub_457400T)ASLR(0x457400);
-
-int __fastcall sub_457400(uintptr_t _this, void* unused, int a2, int a3, char a4, void *Src, HICON hInstance, int a7, char a8, int a9)
-{
-    auto ret = osub_457400(_this, a2, a3, a4, Src, hInstance, a7, a8, a9);
-    Console::log("Window struct : ", std::hex, ret);
-    return ret;
-}
-
-BOOL WINAPI IsDebuggerPresentHook()
-{
-    return false;
-}
-
-template<typename T> T& GetRef(uint32_t addr)
-{
-    return *reinterpret_cast<T*>(ASLR(addr));
-}
-
+#include <EE/Application/ApplicationBase.hpp>
 static inline auto& bShouldBreak = GetRef<bool>(0x007A3928); // even if it detects a debugger, setting this to 0 will make it not break on exceptions
+
+using AppLoopT = int(__thiscall*)(uintptr_t _this);
+AppLoopT oAppLoop = nullptr;
+
+int __fastcall AppLoop(uintptr_t _this, void* unused)
+{
+    Console::log("AppLoop ", "status ", std::hex, _this);
+    if (EE::ApplicationBase::App == nullptr)
+        EE::ApplicationBase::App = (EE::ApplicationBase::CApplicationBase*)_this;
+    return oAppLoop(_this);
+}
+
+void GetAppLoop()
+{
+    oAppLoop = (AppLoopT)Read<uintptr_t>(EE::ApplicationBase::vtable + 0x8);
+}
 
 void EE::Hooks::HookThreads()
 {
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
-    bShouldBreak = 0;
-    DetourAttach(&(PVOID&)osub_457400, sub_457400);
+    bShouldBreak = 0; // disable breaking when a debugger is attached
     Console::log(std::hex, EE::Thread::oCreateThread);
+    Console::log("EE::Thread::Current ", std::hex, ASLR(0x7E9FE8));
+    GetAppLoop();
+    // Hook the app loop to get applicationbase struct
+    DetourAttach(&(PVOID&)oAppLoop, AppLoop);
+    Console::log("Struct 1 ", std::hex, ASLR(0x7EA1CC));
     DetourAttach(&(PVOID&)EE::Thread::oCreateThread, EE::Thread::CreateThread);
     DetourAttach(&(PVOID&)EE::VfsArchive::oReadFile, EE::VfsArchive::ReadFile);
     DetourAttach(&(PVOID&)EE::VfsArchive::oOpenFile, EE::VfsArchive::OpenFile);
