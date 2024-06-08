@@ -4,7 +4,7 @@
 
 K7::Graphics::DrawMenuButtonT K7::Graphics::oDrawMenuButton = (K7::Graphics::DrawMenuButtonT)ASLR(0x5A9380);
 
-
+// Set the color of each letter in the button
 void sub_5A9930(uintptr_t a1, K7::Graphics::Color a2)
 {
     if (a1 != 0)

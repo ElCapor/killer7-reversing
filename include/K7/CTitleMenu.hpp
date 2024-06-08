@@ -16,19 +16,20 @@ namespace K7
         // 0075575C
         class mk7sprite
         {
-            uintptr_t vtable[7]; // 6 is render
-            char pad[24];
-            uint16_t width;
-            uint16_t height;
+            uintptr_t vtable[7]; // 6 is render //0x0
+            char pad[24]; //0x04
+            uint16_t width; //0x1C
+            uint16_t height; //0x1E
+
         };
 
         DECLARE_THISCALL_FUNCTION(RenderSprite, int);
 
         struct MenuButtonDescriptor
         {
-            int text_len;
+            int text_len; // the number of characters
             const char* text;
-            void* flag1;
+            void* flag1; // the array of sprites that represents the letters
             void* flag2;
             int flag4;
             void* flag5;
