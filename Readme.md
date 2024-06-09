@@ -30,6 +30,8 @@ they use too much templates fr
 99% of funcs are direct vtable calls, this bothers me lol, maybe i should try using class informer ?
 because rn i have to manually go to one func, then find it back by assembly in ida, so i have to do it dynamically each time, for example this made it very hard to even follow the entry point of the program, because it's all vtable calls, so you gotta find the window struct dynamically (after patching the above debug stuff)
 
+I've tried to keep this project as close as possible to the original filestructure as seen in the debug asserts and the file names
+
 # TODO
 [ ] - Stop using hardcoded addresses (patterns instead)
 [ ] - Make a vtable template struct (for easier manipulation etc)
